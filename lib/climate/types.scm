@@ -27,7 +27,7 @@
 ;;   + <command-executor>           ;; main command
 
 
-#!nounbound
+
 (library (climate types)
     (export climate? make-climate climate-name climate-commands
 	    climate-command
@@ -44,17 +44,17 @@
 	    format-usage format-command-line-usage
 	    required-usage? make-required-usage required-usage-name
 	    option-usage? make-option-usage
-	    option-usage-names 
-	    
+	    option-usage-names
+
 	    result? make-success-result make-error-result
 	    result-success? result-value)
     (import (rnrs)
-	    (sagittarius))
-
+            (guile))
 (define-record-type climate
   (fields name commands))
 
-(define (climate-command (climate climate?) name)
+(define (climate-command climate name)
+  (assert (climate? climate))
   (search-command name (climate-commands climate)))
 
 ;; parent record
@@ -68,7 +68,8 @@
   (parent command)
   (fields commands)) ;; sub commands
 
-(define (command-group-command (command command-group?) name)
+(define (command-group-command command name)
+  (assert (command-group? command))
   (search-command name (command-group-commands command)))
 
 (define (command-group-usage command parents)
@@ -169,7 +170,7 @@
 	       (default (option-usage-default usage)))
 	   (display opt out) (display ": " out)
 	   (when message (display message out))
-	   (when (and default (not (undefined? default)))
+	   (when (and default (defined? default))
 	     (when message (display ", " out))
 	     (display "default value is " out)
 	     (display default out))))

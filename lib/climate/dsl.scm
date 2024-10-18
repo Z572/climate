@@ -17,12 +17,12 @@
 
 ;; DSL to create `climate`
 
-#!nounbound
+
 (library (climate dsl)
     (export climate group arguments options prefab
 	    (rename (command climate:command)))
     (import (rnrs)
-	    (sagittarius)
+	    (guile)
 	    (climate types)
 	    (srfi :1 lists)
 	    (srfi :37 args-fold))

@@ -15,7 +15,6 @@
 ;;; limitations under the License.
 ;;;
 
-#!nounbound
 (library (climate)
     (export climate group arguments options prefab climate:command
 	    climate? climate-commands climate-command
@@ -35,8 +34,7 @@
     (import (rnrs)
 	    (climate dsl)
 	    (climate types)
-	    (climate input)
-	    (sagittarius))
+	    (climate input))
 
 (define (execute-climate climate args)
   (cond ((null? args) (climate-usage-result climate "No command is given" #f))
